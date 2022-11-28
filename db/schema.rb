@@ -10,21 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_21_202938) do
+ActiveRecord::Schema.define(version: 2022_11_26_230140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "bonuses", force: :cascade do |t|
-    t.integer "amount", default: 0, null: false
-    t.boolean "is_used", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id"
-    t.bigint "payment_id"
-    t.index ["payment_id"], name: "index_bonuses_on_payment_id"
-    t.index ["user_id"], name: "index_bonuses_on_user_id"
-  end
 
   create_table "car_brands", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -34,7 +23,7 @@ ActiveRecord::Schema.define(version: 2022_11_21_202938) do
 
   create_table "car_rents", force: :cascade do |t|
     t.datetime "ended_at"
-    t.boolean "is_paid"
+    t.boolean "is_paid", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "car_id"
@@ -81,15 +70,23 @@ ActiveRecord::Schema.define(version: 2022_11_21_202938) do
     t.index ["reference_type", "reference_id"], name: "index_images_on_reference"
   end
 
+  create_table "payment_cards", force: :cascade do |t|
+    t.string "code", default: "", null: false
+    t.string "cvv", default: "", null: false
+    t.string "date_exp", default: "", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_payment_cards_on_user_id"
+  end
+
   create_table "payments", force: :cascade do |t|
     t.boolean "is_paid", default: false, null: false
     t.integer "amount", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "car_rent_id"
-    t.bigint "user_id"
     t.index ["car_rent_id"], name: "index_payments_on_car_rent_id"
-    t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -103,6 +100,7 @@ ActiveRecord::Schema.define(version: 2022_11_21_202938) do
     t.string "encrypted_password", default: "", null: false
     t.string "first_name", default: "", null: false
     t.string "second_name", default: "", null: false
+    t.string "jti", default: "", null: false
     t.string "phone", default: "", null: false
     t.boolean "locked", default: false, null: false
     t.datetime "locked_at"
@@ -113,14 +111,12 @@ ActiveRecord::Schema.define(version: 2022_11_21_202938) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
-  add_foreign_key "bonuses", "payments"
-  add_foreign_key "bonuses", "users"
   add_foreign_key "car_rents", "cars"
   add_foreign_key "car_rents", "users"
   add_foreign_key "cars", "car_brands"
   add_foreign_key "cars", "fuel_types"
   add_foreign_key "documents", "users"
+  add_foreign_key "payment_cards", "users"
   add_foreign_key "payments", "car_rents"
-  add_foreign_key "payments", "users"
   add_foreign_key "users", "roles"
 end

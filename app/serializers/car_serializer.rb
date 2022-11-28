@@ -24,32 +24,29 @@
 #  fk_rails_...  (car_brand_id => car_brands.id)
 #  fk_rails_...  (fuel_type_id => fuel_types.id)
 #
-class Car < ApplicationRecord
+class CarSerializer
+  include JSONAPI::Serializer
+  attributes :price_per_min, :name, :engine_volume, :edition_year, :condition,:ready_to_rent
 
-  # ready_to_rent - f.e. when car is under repair
-  include Imagable
-
-  validates :price_per_min, numericality: {greater_than_or_equal_to: 1}
-  validates :engine_volume, numericality: {greater_than_or_equal_to: 0.1, less_than: 20.0}
-  validates :edition_year, numericality: {greater_than_or_equal_to: 1900, less_than: Time.now.year+1}
-  validates :condition, presence: true, numericality: {less_than: 11, greater_than_or_equal_to: 0}
-
-  validates :name, presence: true
-
-  belongs_to :fuel_type
-  belongs_to :car_brand
-  has_many :car_rents
-
-  def to_restore!
-    self.update(ready_to_rent: false)
+  attribute :created_at do |user|
+    user.created_at.to_date
   end
 
-  def to_rent!
-    self.update(ready_to_rent: true)
-  end
+  belongs_to :fuel_type, meta: Proc.new {|o,p|
+    {
+      name: o.fuel_type.name,
+    }
+  }
 
-  def full_name
-    "#{self.car_brand.name} #{self.name}"
-  end
+  belongs_to :car_brand, meta: Proc.new {|o,p|
+    {
+      name: o.car_brand.name,
+    }
+  }
+
+  has_one :image, meta: Proc.new {|o,p|
+    {
+      url: o.image.image_url
+    }}
 
 end

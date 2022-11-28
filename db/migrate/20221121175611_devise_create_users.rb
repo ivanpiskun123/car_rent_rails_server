@@ -9,7 +9,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
 
       t.string :first_name, null: false, default: ""
       t.string :second_name, null: false, default: ""
-
+      t.string :jti, null: false, default: ""
       t.string :phone, null: false, default: ""
 
       ## Recoverable

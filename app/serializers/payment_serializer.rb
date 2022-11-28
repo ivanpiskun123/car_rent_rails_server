@@ -17,24 +17,7 @@
 #
 #  fk_rails_...  (car_rent_id => car_rents.id)
 #
-require 'rails_helper'
-
-RSpec.describe Payment, type: :model do
-  let(:payment) {build(:payment)}
-
-  describe 'associations' do
-    it { expect(payment).to belong_to(:car_rent) }
-  end
-
-  describe 'model methods' do
-    describe '#paid!' do
-      before do
-        payment.paid!
-      end
-
-      it "payment paid" do
-        expect(payment.is_paid).to be(true)
-      end
-    end
-  end
+class PaymentSerializer
+  include JSONAPI::Serializer
+  attributes 
 end

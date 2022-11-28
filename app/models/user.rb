@@ -6,6 +6,7 @@
 #  email              :string           default(""), not null
 #  encrypted_password :string           default(""), not null
 #  first_name         :string           default(""), not null
+#  jti                :string           default(""), not null
 #  locked             :boolean          default(FALSE), not null
 #  locked_at          :datetime
 #  phone              :string           default(""), not null
@@ -36,10 +37,9 @@ class User < ApplicationRecord
 
   belongs_to :role
   has_many :car_rents
-  has_many :payments
-  has_many :documents
+  has_many :payments, :through => :car_rents
   has_one :document
-
+  has_one :payment_card
 
   def generate_jwt
     JWT.encode({id: id, exp: 60.days.from_now.to_i}, Rails.application.secrets.secret_key_base)
@@ -51,6 +51,10 @@ class User < ApplicationRecord
 
   def unlock!
     self.update(locked: false)
+  end
+
+  def full_name
+    "#{first_name} #{second_name}"
   end
 
 end

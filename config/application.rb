@@ -32,7 +32,9 @@ module Server
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    # Don't generate system test files.
+    # Don't generate system test files.ra
     config.generators.system_tests = nil
   end
 end
+
+# rails db:drop db:create db:migrate db:seed

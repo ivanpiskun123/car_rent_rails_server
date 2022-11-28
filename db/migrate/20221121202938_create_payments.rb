@@ -7,9 +7,7 @@ class CreatePayments < ActiveRecord::Migration[6.1]
       t.timestamps
     end
 
-    add_reference :bonuses, :payment, foreign_key: true
     add_reference :payments, :car_rent, foreign_key: true
-    add_reference :payments, :user, foreign_key: true
 
   end
 end

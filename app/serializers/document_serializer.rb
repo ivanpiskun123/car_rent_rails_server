@@ -16,19 +16,7 @@
 #
 #  fk_rails_...  (user_id => users.id)
 #
-class Document < ApplicationRecord
-  include Imagable
-
-  validates :status, presence: true, numericality: {less_than: 3, greater_than_or_equal_to: 0}
-  belongs_to :user
-
-  def reject!
-    self.update(status: 0)
-  end
-
-  def approve!
-    self.update(status: 2)
-  end
-
-
+class DocumentSerializer
+  include JSONAPI::Serializer
+  attributes 
 end
