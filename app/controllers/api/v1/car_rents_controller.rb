@@ -1,4 +1,6 @@
 class Api::V1::CarRentsController < ApplicationController
+  skip_before_action :authenticate_user!
+
   def index
 
     if params["userId"].present?
@@ -24,7 +26,7 @@ class Api::V1::CarRentsController < ApplicationController
     rescue StandardError => e
       render json: {status: "error", code: 400,
                     client_message: "Please check if typed data is correct",
-                    error_message: e.errors}
+                    error_message: e}
     end
 
   end
@@ -40,7 +42,7 @@ class Api::V1::CarRentsController < ApplicationController
     rescue StandardError => e
       render json: {status: "error", code: 400,
                     client_message: "Please check if typed data is correct",
-                    error_message: e.errors}
+                    error_message: e}
     end
   end
 

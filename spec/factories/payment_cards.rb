@@ -20,6 +20,9 @@
 #
 FactoryBot.define do
   factory :payment_card do
-    
+    code { "1234 5678 9012 3456" }
+    cvv { "123" }
+    date_exp { "12/23" }
+    user
   end
 end

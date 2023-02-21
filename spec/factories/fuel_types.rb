@@ -8,7 +8,7 @@
 #  updated_at :datetime         not null
 #
 FactoryBot.define do
-  factory :fuel_type, class: FuelType  do
-    name { Faker::Vehicle.fuel_type }
+  factory :fuel_type do
+    sequence(:name) { |n| "#{Faker::Vehicle.fuel_type}-#{n}" }
   end
 end

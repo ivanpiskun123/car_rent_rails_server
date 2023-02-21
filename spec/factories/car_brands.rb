@@ -9,6 +9,6 @@
 #
 FactoryBot.define do
   factory :car_brand do
-    
+    sequence(:name) { |n| "#{Faker::Vehicle.make}-#{n}" }
   end
 end

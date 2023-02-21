@@ -26,6 +26,13 @@
 #
 FactoryBot.define do
   factory :car do
-    
+    price_per_min { 5 }
+    sequence(:name) { |n| "#{Faker::Vehicle.model}-#{n}" }
+    engine_volume { 1.5 }
+    edition_year { 2020 }
+    condition { 9 }
+    ready_to_rent { true }
+    association :fuel_type
+    association :car_brand
   end
 end

@@ -38,7 +38,7 @@ class CarRentSerializer
 
   belongs_to :car, meta: Proc.new {|o,p|
     {
-      car_image: o.car.image.image_url,
+      car_image: o&.car&.image&.image_url,
       full_name: "#{o.car.car_brand.name} #{o.car.name}",
       edition_year: o.car.edition_year
     }

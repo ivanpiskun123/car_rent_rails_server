@@ -15,6 +15,8 @@
 #
 FactoryBot.define do
   factory :image do
-    
+    image_url { Faker::Internet.url }
+    reference_type { 'Car' }
+    association :reference, factory: :car
   end
 end

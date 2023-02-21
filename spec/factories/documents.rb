@@ -18,6 +18,7 @@
 #
 FactoryBot.define do
   factory :document do
-    
+    status { 1 }
+    association :user
   end
 end
